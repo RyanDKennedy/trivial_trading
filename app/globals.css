@@ -24,3 +24,8 @@ body {
 {
    @apply text-3xl text-center underline mt-4
 }
+
+.button-style
+{
+    @apply text-center bg-blue-800 text-gray-100 hover:bg-blue-600 px-2 py-1 rounded-lg
+}
