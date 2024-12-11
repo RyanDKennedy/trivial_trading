@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Home()
 {
 
@@ -9,8 +11,8 @@ export default function Home()
 	    <div className="space-x-2 mt-10 flex flex-col gap-3 justify-center items-center">
 	      <p>Select an option to get started.</p>
 	      <div className="grid grid-cols-2 gap-x-2">
-	        <a href="/register" className={button_style}>Register</a>
-	        <a href="/login" className={button_style}>Login</a>
+	        <Link href="/register" className={button_style}>Register</Link>
+	        <Link href="/login" className={button_style}>Login</Link>
 	      </div>
 	    </div>
 	    </>
