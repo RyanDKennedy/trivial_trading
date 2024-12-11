@@ -19,3 +19,8 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.page-header
+{
+   @apply text-3xl text-center underline mt-4
+}
