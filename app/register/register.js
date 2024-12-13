@@ -1,26 +1,33 @@
 "use server"
 
-
+import { redirect } from "next/navigation";
 
 
 export async function registerUser(fullName, username, password)
 {
-    console.log(fullName, username, password);
-
     let errorText = "Failed to register user.";
+
     let worked = true;
 
-    // TODO: check db
     try
     {
-	console.log("hi");
+	// TODO: check db
+	console.log("fake checking db");
+
     }
     catch (err)
     {
 	worked = false;
-
-
+	console.log("ERROR");
     }
 
-    return {worked, errorText};
+    if (worked === true)
+    {
+	redirect("/login");
+    }
+    else
+    {
+
+	return {errorText};
+    }
 }
