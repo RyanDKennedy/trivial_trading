@@ -17,10 +17,7 @@ export default function Home(props)
 
 	      let data = await login(username, password);
 
-	      if (data.success == false)
-	      {	      
-		  setErrorText(data.errorText);
-	      }
+	      setErrorText(data.errorText);
 	  }
 
 
