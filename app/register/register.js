@@ -16,8 +16,7 @@ export async function registerUser(fullName, username, password)
     {
 	// FIXME: store password as hash with salt
 	g_db.prepare('INSERT INTO users (name, username, password) VALUES (?, ?, ?);').run(fullName, username, password);
-	console.log("Registered User {name: "+fullName+", username: "+username+", password: "+password+"}");
-	redirect("/login");
+	// console.log("Registered User {name: "+fullName+", username: "+username+", password: "+password+"}");
     }
     catch (err)
     {
@@ -27,7 +26,7 @@ export async function registerUser(fullName, username, password)
 
     if (worked === true)
     {
-//	redirect("/login");
+	redirect("/login");
     }
 
 
