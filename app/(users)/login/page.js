@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Form from "next/form";
-import { login } from "./login.js";
+import { login } from "../users.js";
 
 export default function Home(props)
 {
+    const [showPassword, setShowPassword] = useState(false);
     const [errorText, setErrorText] = useState("");
     
     const handleSubmit = async (formData) =>
@@ -31,10 +32,11 @@ export default function Home(props)
 	  </div>
 	  <div className="mb-3">
 	    <label className="" htmlFor="password">Password</label><br/>
-	    <input required className="rounded text-gray-800 w-full" name="password" type="password" /><br/>
+	    <input required className="rounded text-gray-800 w-full" name="password" type={showPassword? "text": "password"} /><br/>
 	  </div>
 	  <p className="text-red-500 mb-3">{errorText}</p>
 	  <button type="submit" className="button-style">Login</button>
+	  <button type="button" className="button-style ml-3" onClick={() => setShowPassword(!showPassword)}>Toggle Show Password</button>
 	</Form>
 	</>
     );
