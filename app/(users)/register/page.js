@@ -14,9 +14,9 @@ export default function Page()
 	  {
 	      setErrorText("");
 
-	      const fullName = formData.get("fullName");
-	      const username = formData.get("username");
-	      const password = formData.get("password");
+	      const fullName = formData.get("fullName").trim();
+	      const username = formData.get("username").trim();
+	      const password = formData.get("password").trim();
 
 	      let data = await registerUser(fullName, username, password);
 

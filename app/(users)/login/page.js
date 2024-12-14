@@ -13,8 +13,8 @@ export default function Home(props)
 	  {
 	      setErrorText("");
 
-	      const username = formData.get("username");
-	      const password = formData.get("password");
+	      const username = formData.get("username").trim();
+	      const password = formData.get("password").trim();
 
 	      let data = await login(username, password);
 

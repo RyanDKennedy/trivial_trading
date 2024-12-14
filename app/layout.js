@@ -1,6 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { hasSession, getFullName } from "@/app/lib/utils.js";
+import { logout } from "@/app/(users)/users.js";
+
+import Navbar from "@/app/components/navbar.js";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,15 +21,15 @@ export const metadata = {
   description: "A practice stock trading app.",
 };
 
-export default function RootLayout({ children }) {
-    const navbarElementClasses = "hover:bg-gray-700 hover:text-yellow-400 p-2 rounded"
+
+export default async function RootLayout({ children }) {
+
+    const doesHaveSession = await hasSession();
 
   return (
 	  <html lang="en">
 	  <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-	  <nav className="bg-gray-800 space-x-3 p-3">
-	  <Link href="/" className={navbarElementClasses}>Home</Link>
-	  </nav>
+	  <Navbar hasSession={doesHaveSession}/>
           {children}
           </body>
 	  </html>
