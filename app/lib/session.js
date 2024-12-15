@@ -45,10 +45,10 @@ export async function getUserId()
     return payload.userId;
 }
 
-export async function createSession(userId)
+export async function createSession(userId, role)
 {
     const expiresAt = new Date(Date.now() + 7*24*3600*1000);
-    const session = await encrypt({userId});
+    const session = await encrypt({userId, role});
     const cookieStore = await cookies();
 
     cookieStore.set("session", session, {

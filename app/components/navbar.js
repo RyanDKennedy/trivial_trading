@@ -1,4 +1,5 @@
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import Link from "next/link";
 import { hasSession, getFullName } from "@/app/lib/utils.js";
 import { logout } from "@/app/(users)/users.js";
@@ -15,7 +16,8 @@ export default async function Navbar(props)
 		  "use server"
 
 		  await logout();
-		  revalidatePath("/", "layout");
+		  revalidatePath("/");
+		  redirect("/");
 	      }
 
 	const fullName = await getFullName();

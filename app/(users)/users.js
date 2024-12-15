@@ -8,7 +8,7 @@ import bcrypt from "bcrypt"
 
 
 const g_db = new Database(process.env.DB_USERS_PATH, {});
-// g_db.prepare('CREATE TABLE users (name text, username text, password text);').run();
+// g_db.prepare('CREATE TABLE users (name text, username text, password text, role text);').run();
 
 export async function registerUser(fullName, username, password)
 {
@@ -19,7 +19,7 @@ export async function registerUser(fullName, username, password)
     try
     {
 	let hashedPassword = await bcrypt.hash(password, 10);
-	g_db.prepare('INSERT INTO users (name, username, password) VALUES (?, ?, ?);').run(fullName, username, hashedPassword);
+	g_db.prepare('INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, ?);').run(fullName, username, hashedPassword, "user");
     }
     catch (err)
     {
@@ -57,7 +57,7 @@ export async function login(username, password)
 	return {errorText};
     }
 
-    await createSession(userRecord.rowid, userRecord.name);
+    await createSession(userRecord.rowid, userRecord.role);
     redirect("/");
 
 }
