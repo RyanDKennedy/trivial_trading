@@ -6,9 +6,7 @@ import { createSession, deleteSession } from "@/app/lib/session.js";
 import { revalidatePath } from 'next/cache';
 import bcrypt from "bcrypt"
 
-
 const g_db = new Database(process.env.DB_PATH, {});
-// g_db.prepare('CREATE TABLE users (name text, username text, password text, role text);').run();
 
 export async function registerUser(fullName, username, password)
 {

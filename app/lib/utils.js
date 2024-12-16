@@ -19,15 +19,12 @@ export async function getFullName()
 
 }
 
-export async function doesRecordExistFromId(userId)
+export async function doesUserExistFromId(userId)
 {
     const data = g_db.prepare("SELECT COUNT(*) FROM users WHERE id = ?;").get(userId)["COUNT(*)"];
 
-    console.log(data);
-
     if (data === 0)
 	return false;
-
 
     return true;
 }
@@ -37,6 +34,25 @@ export async function getFullNameFromId(userId)
     const name = g_db.prepare("SELECT name FROM users WHERE id = ?;").get(userId)?.name;
 
     return name;    
+}
+
+export async function getStockPurchasesFromId(userId)
+{
+
+    return g_db.prepare("SELECT * FROM stock_purchases WHERE user_id=?;").all(userId);
+
+/*
+    const result;
+
+    const entrys;
+    for (let i = 0; i < purchases.length; ++i)
+    {
+	const entrys = g_db.prepare("SELECT price, stock_id FROM stock_entrys WHERE id=;").all(purchases[i].stock_entry_id);
+
+	result[i].price = entrys
+    }
+*/
+
 }
 
 export async function hasSession()
