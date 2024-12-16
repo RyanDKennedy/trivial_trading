@@ -7,33 +7,42 @@ import { revalidatePath } from 'next/cache';
 import bcrypt from "bcrypt"
 
 
-const g_db = new Database(process.env.DB_USERS_PATH, {});
+const g_db = new Database(process.env.DB_PATH, {});
 // g_db.prepare('CREATE TABLE users (name text, username text, password text, role text);').run();
 
 export async function registerUser(fullName, username, password)
 {
     let errorText = "Failed to register user.";
-
     let worked = true;
 
     try
     {
-	let hashedPassword = await bcrypt.hash(password, 10);
-	g_db.prepare('INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, ?);').run(fullName, username, hashedPassword, "user");
+	const prevRecord = g_db.prepare("SELECT id FROM users WHERE username = ?;").get(username);
+
+	if (prevRecord)
+	{
+	    errorText = "Username is already taken.";
+	    return {errorText};
+	}
+
+
+	const hashedPassword = await bcrypt.hash(password, 10);
+
+	const roleUserId = g_db.prepare("SELECT id FROM role WHERE name=?;").get("user");
+
+	g_db.prepare('INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, ?);').run(fullName, username, hashedPassword, roleUserId.id);
     }
     catch (err)
     {
+	worked=false;
 	console.log("Failed to register user: "+err);
-	worked = false;
+	return {errorText};
     }
 
     if (worked === true)
     {
-	redirect("/login");
+	redirect("/login");	
     }
-
-
-    return {errorText};
 
 }
 
@@ -41,7 +50,7 @@ export async function login(username, password)
 {
     let errorText = "Failed to login";
 
-    const userRecord = g_db.prepare("SELECT rowid, * FROM users WHERE username=?;").get(username);
+    const userRecord = g_db.prepare("SELECT * FROM users WHERE username=?;").get(username);
 
     if (!userRecord)
     {
@@ -49,7 +58,7 @@ export async function login(username, password)
 	return {errorText};
     }
 
-    let passwordMatches = await bcrypt.compare(password, userRecord?.password);
+    const passwordMatches = await bcrypt.compare(password, userRecord?.password);
 
     if (!passwordMatches)
     {
@@ -57,7 +66,9 @@ export async function login(username, password)
 	return {errorText};
     }
 
-    await createSession(userRecord.rowid, userRecord.role);
+    const roleName = g_db.prepare("SELECT name FROM role WHERE id=?;").get(userRecord.role);
+
+    await createSession(userRecord.id, roleName.name);
     redirect("/");
 
 }

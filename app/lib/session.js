@@ -31,7 +31,7 @@ export async function decrypt(session)
     }
 }
 
-export async function getUserId()
+export async function getSession()
 {
     const cookieStore = await cookies();    
     const session = cookieStore.get("session")?.value;
@@ -42,7 +42,7 @@ export async function getUserId()
 	return null;
     }
 
-    return payload.userId;
+    return payload;
 }
 
 export async function createSession(userId, role)

@@ -1,0 +1,47 @@
+// https://dbdiagram.io/d
+
+Table users
+{
+  rowid integer [primary key]
+  name text
+  role enum("admin", "user")
+}
+
+Table stock_purchases
+{
+  rowid integer [primary key]
+  user_id integer
+  date date
+  stock_entry_id integer
+  shares integer
+}
+
+Table stocks
+{
+  rowid integer [primary key]
+  abbreviation text
+  name text
+  stock_market_id integer
+}
+
+Table stock_entrys
+{
+  rowid integer [primary key]
+  stock_id integer
+  date date
+  price float
+}
+
+Table stock_markets
+{
+  rowid integer [primary key]
+  name text
+  abbreviation text
+}
+
+Ref: stocks.stock_market_id > stock_markets.rowid
+Ref: stock_purchases.user_id > users.rowid
+Ref: stock_purchases.stock_entry_id > stock_entrys.rowid
+Ref: stock_entrys.stock_id > stocks.rowid
+
+

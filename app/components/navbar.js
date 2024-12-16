@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import Link from "next/link";
-import { hasSession, getFullName } from "@/app/lib/utils.js";
+import { hasSession, getFullName, getUserId } from "@/app/lib/utils.js";
 import { logout } from "@/app/(users)/users.js";
 
 export default async function Navbar(props)
@@ -21,6 +21,7 @@ export default async function Navbar(props)
 	      }
 
 	const fullName = await getFullName();
+	const userId = await getUserId();
 
 	return (
 		<nav className="top-0 bg-gray-800 space-x-3 p-3 flex flex-row flex-nowrap justify-between items-center">
@@ -30,7 +31,7 @@ export default async function Navbar(props)
 
 		<div className="flex gap-x-3 items-center">
 		  <button onClick={handleSubmit} className="button-style">Logout</button>
-		  <Link href="/profile" className={navbarElementClasses}>{fullName}</Link>
+		  <Link href={"/profile/"+userId} className={navbarElementClasses}>{fullName}</Link>
 		</div>
 
 		</nav>    

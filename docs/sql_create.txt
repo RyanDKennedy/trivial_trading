@@ -1,0 +1,62 @@
+PRAGMA foreign_keys = ON;
+
+// Create stock_markets table
+
+CREATE TABLE stock_markets(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  abbreviation TEXT NOT NULL
+);
+
+// Create stocks table
+
+CREATE TABLE stocks(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  abbreviation TEXT NOT NULL,
+  name TEXT NOT NULL,
+  stock_market_id INT NOT NULL,
+  FOREIGN KEY(stock_market_id) REFERENCES stock_markets(id)
+);
+
+// Create stock_entrys table
+
+CREATE TABLE stock_entrys(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stock_id INT NOT NULL,
+  date INT NOT NULL,
+  price REAL NOT NULL,
+  FOREIGN KEY(stock_id) REFERENCES stocks(id)
+);
+
+// Create the role enum
+
+CREATE TABLE role(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
+
+INSERT INTO role (name) VALUES ('user');
+INSERT INTO role (name) VALUES ('admin');
+
+// Create users table
+
+CREATE TABLE users(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  role INT NOT NULL,
+  FOREIGN KEY(role) REFERENCES role(id)
+);
+
+// Create stock_purchases table
+
+CREATE TABLE stock_purchases(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INT NOT NULL,
+  date INT NOT NULL,
+  stock_entry_id INT NOT NULL,
+  shares REAL NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(stock_entry_id) REFERENCES stock_entrys(id)
+);
