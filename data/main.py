@@ -32,8 +32,8 @@ def main():
 
         for i in range(0, data.shape[0]):
             index = i;
-            symbol = data.iloc[i]['symbol'].strip();
-            name = data.iloc[i]['name'].strip() if pd.notnull(data.iloc[i]['name']) else symbol;
+            symbol = data.iloc[i]['symbol'].strip() if pd.notnull(data.iloc[i]['symbol']) else "";
+            name = data.iloc[i]['name'].strip() if pd.notnull(data.iloc[i]['name']) else "";
             market_id = find_id_of_stock_market(stock_markets, data.iloc[i]['exchange']);
             cursor.execute("INSERT INTO stocks (abbreviation, name, stock_market_id) VALUES(\"{}\", \"{}\", {});".format(name, symbol, market_id));
 
