@@ -67,7 +67,7 @@ export async function login(username, password)
     const roleName = g_db.prepare("SELECT name FROM role WHERE id=?;").get(userRecord.role);
 
     await createSession(userRecord.id, roleName.name);
-    redirect("/");
+    redirect("/home");
 
 }
 

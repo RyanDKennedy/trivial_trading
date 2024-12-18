@@ -26,7 +26,7 @@ export default async function Navbar(props)
 	return (
 		<nav className="top-0 bg-gray-800 space-x-3 p-3 flex flex-row flex-nowrap justify-between items-center">
 		<div className="flex gap-x-3 items-center">
-		  <Link href="/" className={navbarElementClasses}>Trivial Trading</Link>
+		  <Link href="/home" className={navbarElementClasses}>Trivial Trading</Link>
 		</div>
 
 		<div className="flex gap-x-3 items-center">
