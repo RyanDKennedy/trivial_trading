@@ -1,32 +1,28 @@
+"use server"
 
-import { getStockMarketFromId } from "@/app/lib/utils.js";
-
+import { getStockMarketFromId, searchStocks } from "@/app/lib/utils.js";
+import { ExchangeStocks } from "@/app/exchanges/[id]/display.js";
 import Link from "next/link";
-
-function StockCard({name, abbreviation, id})
-{
-    return (
-	    <div className="m-3 p-3 rounded-lg bg-indigo-900">
-	    <h2 className="mb-3">{abbreviation}</h2>
-	    <Link href={"/stocks/"+id} className="button-style">Visit Stock</Link>
-	    </div>
-    );
-}
 
 export default async function Page(props)
 {
     const { id } = await props.params;
 
+    const pageSize = 20;
+
     const market = await getStockMarketFromId(id);
+
+    const startingStocks = await searchStocks(id, "", pageSize, 0);
 
     return (
 	    <>
 	    <h1 className="page-header">Browse {market.abbreviation} Stocks</h1>
 
-	    <ul>
-	    <li><StockCard name="test" abbreviation="tst" id="1" /></li>
-	    </ul>
+	    <ExchangeStocks exchangeName={market.name} exchangeAbbreviation={market.abbreviation} exchangeId={market.id} startingStocks={startingStocks} pageSize={pageSize}/>
 
+	    <div className="grid grid-flow-col justify-stretch mx-3 py-4">
+	    <Link href="#" className="button-style">Top</Link>
+	    </div>
 
 	    </>
     )

@@ -20,7 +20,14 @@ export default async function Page(props)
 
     return (
 	    <>
-	    <h1 className="page-header">Browse Exchanges</h1>
+	    <h1 className="page-header">Home</h1>
+
+	    <div className="flex flex-row justify-center my-3 space-x-2">
+	    <Link className="button-style" href="/profile">My Profile</Link>
+	    <button className="button-style">Goto Random Stock</button>
+	    </div>
+
+	    <h2 className="text-center text-2xl">Browse Exchanges</h2>
 	    <ul>
 	    {markets.map(market => <li key={market.id}><MarketCard name={market.name} abbreviation={market.abbreviation} id={market.id} /></li>)}
 	    </ul>

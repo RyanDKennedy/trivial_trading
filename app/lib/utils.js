@@ -73,3 +73,18 @@ export async function getUserId()
     const session = await getSession();
     return session?.userId;
 }
+
+export async function searchStocks(marketId, search, limit, offset)
+{
+    let err = search.includes(";");
+    err |= search.includes("'");
+    err |= search.includes("\"");
+
+    if (err)
+    {
+	return [];
+    }
+
+    const query = "SELECT * FROM stocks WHERE stock_market_id=? AND (name LIKE '"+search+"%' OR abbreviation LIKE '"+search+"%')LIMIT ? OFFSET ?;";
+    return g_db.prepare(query).all(marketId, limit, offset);
+}
