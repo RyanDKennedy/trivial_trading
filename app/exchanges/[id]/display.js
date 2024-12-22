@@ -68,7 +68,7 @@ export function ExchangeStocks({ exchangeName, exchangeAbbreviation, exchangeId,
 	      if (newPage == page)
 		  return;
 
-	      const newStocks = await searchStocks(exchangeId, oldSearch, pageSize, newPage);
+	      const newStocks = await searchStocks(exchangeId, oldSearch, pageSize, newPage*pageSize);
 
 	      setStocks(newStocks);
 

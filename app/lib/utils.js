@@ -58,6 +58,12 @@ export async function getStockMarketFromId(id)
     return g_db.prepare(query).get(id);    
 }
 
+export async function getStockFromId(id)
+{
+    const query = "SELECT * FROM stocks WHERE id=?;";
+    return g_db.prepare(query).get(id);    
+}
+
 export async function hasSession()
 {
     const session = await getSession();
@@ -85,6 +91,6 @@ export async function searchStocks(marketId, search, limit, offset)
 	return [];
     }
 
-    const query = "SELECT * FROM stocks WHERE stock_market_id=? AND (name LIKE '"+search+"%' OR abbreviation LIKE '"+search+"%')LIMIT ? OFFSET ?;";
+    const query = "SELECT * FROM stocks WHERE stock_market_id=? AND (name LIKE '"+search+"%' OR abbreviation LIKE '"+search+"%') ORDER BY abbreviation LIMIT ? OFFSET ?;";
     return g_db.prepare(query).all(marketId, limit, offset);
 }
